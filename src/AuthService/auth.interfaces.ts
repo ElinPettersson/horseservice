@@ -28,20 +28,3 @@ export interface IUser {
   password: string;
   horseIds: Array<string>;
 }
-
-// export interface IHorse {
-//   _id: Array<string> | null;
-//   name: string;
-//   born: number;
-//   gender: string;
-//   breed: string;
-//   caliber: string;
-//   type: string;
-//   color: string;
-//   strength: number;
-//   speed: number;
-//   endurance: number;
-//   maintenance: number;
-//   description: string;
-//   picture: string;
-// }

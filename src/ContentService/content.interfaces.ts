@@ -16,6 +16,8 @@ export interface IHorse {
   owner: string;
 }
 
-export interface IGetUserByEmail {
+export interface IFindUser {
+  _id: string;
   email: string;
+  horseIds: Array<string>;
 }

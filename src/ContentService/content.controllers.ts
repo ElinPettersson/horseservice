@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { IGetUserByEmail, IHorse } from "./content.interfaces";
+import { IFindUser, IHorse } from "./content.interfaces";
 
 export async function CreateHorseController(
   req: FastifyRequest<{ Body: IHorse }>,
@@ -8,11 +8,9 @@ export async function CreateHorseController(
   const userEmail = req.user.email;
   const { HorseModel, UserModel } = req.db.models;
 
-  const theUser = await UserModel.find({ email: userEmail });
-  console.log(req.user.userId);
-  console.log(theUser);
+  const theOwner = await UserModel.find({ email: userEmail });
 
-  if (theUser === null) {
+  if (theOwner === null) {
     return await rep.status(400).send("No user exists for this token!");
   }
 
@@ -30,7 +28,7 @@ export async function CreateHorseController(
     maintenance: 0,
     description: req.body.description,
     picture: req.body.picture,
-    owner: req.body.owner,
+    owner: userEmail,
   };
 
   if (!newHorse.owner.includes(userEmail)) {
@@ -77,8 +75,8 @@ export async function UpdateHorseController(
   return await rep.status(200).send(updatedHorses);
 }
 
-export async function GetUserByEmailController(
-  req: FastifyRequest<{ Params: IGetUserByEmail }>,
+export async function FindUserController(
+  req: FastifyRequest<{ Params: IFindUser }>,
   rep: FastifyReply
 ) {
   const { UserModel } = req.db.models;
@@ -91,7 +89,7 @@ export async function GetUserByEmailController(
 
   return await rep.status(200).send({
     email: foundUser.email,
-    userId: foundUser._id,
+    horsesId: foundUser.horseIds,
   });
 }
 
@@ -99,8 +97,8 @@ export async function DeleteHorseController(
   req: FastifyRequest<{ Body: IHorse }>,
   rep: FastifyReply
 ) {
-  const { HorseModel } = req.db.models;
-  const { email } = req.user;
+  const { HorseModel, UserModel } = req.db.models;
+  const userEmail = req.user.email;
 
   const horseExists = await HorseModel.findById(req.body._id);
 
@@ -110,9 +108,16 @@ export async function DeleteHorseController(
       .send(`No horse was found with id ${req.body._id}!`);
   }
 
-  if (!horseExists.owner.includes(email)) {
+  if (!horseExists.owner.includes(userEmail)) {
     return await rep.status(403).send(`You do not have acces to this horse!`);
   }
+
+  await UserModel.findOneAndUpdate(
+    { email: userEmail },
+    {
+      $pull: { horseIds: req.body._id },
+    }
+  ).exec();
 
   const deletedHorse = await HorseModel.findByIdAndDelete(req.body._id);
 

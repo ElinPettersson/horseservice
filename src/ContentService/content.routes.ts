@@ -30,9 +30,9 @@ async function ContentRoutes(
 
   server.route({
     method: "GET",
-    url: "/userByEmail/:email",
+    url: "/user/:email",
     preHandler: server.authenticate,
-    handler: controllers.GetUserByEmailController,
+    handler: controllers.FindUserController,
   });
 }
 
