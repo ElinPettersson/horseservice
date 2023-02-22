@@ -27,7 +27,7 @@ export async function CreateHorseController(
     endurance: 0,
     maintenance: 0,
     description: req.body.description,
-    picture: req.body.picture,
+    image: req.body.image,
     owner: userEmail,
   };
 

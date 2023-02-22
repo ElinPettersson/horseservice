@@ -17,7 +17,7 @@ const HorseProperties = {
     description: "The description of the horse",
     type: "string",
   },
-  picture: { description: "A picture URL of the horse", type: "string" },
+  image: { description: "A image URL of the horse", type: "string" },
   owner: {
     description: "The owner of the horse",
     type: "string",
@@ -67,7 +67,7 @@ export const CreateHorseSchema = {
           description: "The description of the horse",
           type: "string",
         },
-        picture: { description: "A picture URL of the horse", type: "string" },
+        image: { description: "A image URL of the horse", type: "string" },
       },
       owner: { description: "The owner of the horse", type: "string" },
     },

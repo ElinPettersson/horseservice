@@ -14,7 +14,7 @@ const HorseSchema = new Schema<IHorse>({
   endurance: { type: Number, required: false },
   maintenance: { type: Number, required: false },
   description: { type: String, required: true },
-  picture: { type: String, required: false },
+  image: { type: String, required: false },
   owner: { type: String, required: true },
 });
 

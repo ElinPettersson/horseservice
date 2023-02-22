@@ -12,7 +12,7 @@ export interface IHorse {
   endurance: number;
   maintenance: number;
   description: string;
-  picture: string;
+  image: string;
   owner: string;
 }
 
