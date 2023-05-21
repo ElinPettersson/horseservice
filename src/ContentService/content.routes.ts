@@ -22,6 +22,13 @@ async function ContentRoutes(
   });
 
   server.route({
+    method: "GET",
+    url: "/horse",
+    preHandler: server.authenticate,
+    handler: controllers.FindHorsesController,
+  });
+
+  server.route({
     method: "DELETE",
     url: "/horse",
     preHandler: server.authenticate,

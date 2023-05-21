@@ -1,4 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
+import { HorseModel } from "../Models/HorseModel";
 import { IFindUser, IHorse } from "./content.interfaces";
 
 export async function CreateHorseController(
@@ -75,6 +76,23 @@ export async function UpdateHorseController(
   return await rep.status(200).send(updatedHorses);
 }
 
+export async function FindHorsesController(
+  req: FastifyRequest<{ Params: IHorse }>,
+  rep: FastifyReply
+) {
+  const userEmail = req.user.email;
+  const { HorseModel, UserModel } = req.db.models;
+
+  const theOwner = await UserModel.findOne({ email: userEmail });
+  if (!theOwner) {
+    return rep.status(400).send("No user exists for this token!");
+  }
+
+  const foundHorses = await HorseModel.find({ owner: userEmail });
+
+  return rep.status(200).send(foundHorses);
+}
+
 export async function FindUserController(
   req: FastifyRequest<{ Params: IFindUser }>,
   rep: FastifyReply
@@ -88,6 +106,7 @@ export async function FindUserController(
   }
 
   return await rep.status(200).send({
+    name: foundUser.name,
     email: foundUser.email,
     horsesId: foundUser.horseIds,
   });

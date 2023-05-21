@@ -18,6 +18,7 @@ export interface IHorse {
 
 export interface IFindUser {
   _id: string;
+  name: string;
   email: string;
-  horseIds: Array<string>;
+  horseIds: Array<IHorse>;
 }

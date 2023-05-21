@@ -1,3 +1,5 @@
+import { IHorse } from "../ContentService/content.interfaces";
+
 export interface IRegisterRequest {
   name: string;
   email: string;
@@ -26,5 +28,5 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  horseIds: Array<string>;
+  horseIds: Array<IHorse>;
 }
