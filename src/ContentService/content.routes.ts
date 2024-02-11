@@ -15,17 +15,17 @@ async function ContentRoutes(
   });
 
   server.route({
-    method: "PUT",
-    url: "/horse",
-    preHandler: server.authenticate,
-    handler: controllers.UpdateHorseController,
-  });
-
-  server.route({
     method: "GET",
     url: "/horse",
     preHandler: server.authenticate,
     handler: controllers.FindHorsesController,
+  });
+
+  server.route({
+    method: "PUT",
+    url: "/horse",
+    preHandler: server.authenticate,
+    handler: controllers.UpdateHorseController,
   });
 
   server.route({
